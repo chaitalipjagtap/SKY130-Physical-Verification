@@ -20,9 +20,5 @@ vin#branch                                   0
 vdd#branch                           -1.81e-12
 
 
-Warning: command 'plot' is not available during batch simulation, ignored!
-    You may use Gnuplot instead.
-
-
-No. of Data Rows : 621
+No. of Data Rows : 650
 Note: Simulation executed from .control section 
