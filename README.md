@@ -6,6 +6,12 @@ This project explores CMOS circuit design, schematic capture, pre-layout circuit
 
 The project includes a generic CMOS inverter simulation and theoretical documentation of the SKY130 technology and physical verification process.
 
+## Project Screenshot
+
+![CMOS Inverter Schematic](My_Inverter/inverter_schematic.png)
+
+*CMOS inverter schematic created for the project.*
+
 ## 2. SKY130 Process Design Kit (PDK)
 
 The SKY130 PDK provides technology-specific information required to design and verify integrated circuits using a nominal 130 nm CMOS process.
