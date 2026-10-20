@@ -2,151 +2,175 @@
 
 ## 1. Project Overview
 
-This project explores CMOS circuit design, schematic capture, pre-layout circuit simulation, and the physical verification workflow using open-source Electronic Design Automation (EDA) tools and the SKY130 Process Design Kit (PDK).
+This project explores CMOS inverter design, schematic capture, pre-layout circuit simulation, and the physical verification workflow using open-source Electronic Design Automation (EDA) tools and the SKY130 Process Design Kit (PDK).
 
-The project includes a generic CMOS inverter simulation and theoretical documentation of the SKY130 technology and physical verification process.
+The project includes a generic CMOS inverter schematic and simulation, SKY130 technology exploration, and preliminary physical layout work using Magic.
 
-## Project Screenshot
+## 2. Project Screenshots
+
+### CMOS Inverter Schematic
 
 ![CMOS Inverter Schematic](My_Inverter/inverter_schematic.png)
 
-*CMOS inverter schematic created for the project.*
+*Transistor-level CMOS inverter schematic created using Xschem.*
 
-## 2. SKY130 Process Design Kit (PDK)
+### Physical Layout — Work in Progress
 
-The SKY130 PDK provides technology-specific information required to design and verify integrated circuits using a nominal 130 nm CMOS process.
+![CMOS Inverter Layout](My_Inverter/screenshots/inverter_layout.png)
+
+*Preliminary layout created in Magic using the SKY130A technology. Design-rule verification is still in progress.*
+
+### Simulation Waveform
+
+![CMOS Inverter Simulation](My_Inverter/screenshots/inverter_simulation.png)
+
+*Generic CMOS inverter transient simulation. The simulation uses generic Level-1 transistor models, not SKY130-specific device models.*
+
+## 3. SKY130 Process Design Kit (PDK)
+
+The SKY130 PDK provides technology-specific information used in integrated-circuit design and physical verification.
 
 It includes:
 - Technology and process-layer definitions.
 - NMOS and PMOS device information.
 - Design rules and layout constraints.
-- Standard-cell libraries and related technology data.
-- Files for supported EDA tools, including Magic and circuit simulation tools.
+- Standard-cell libraries and technology data.
+- Files supporting EDA tools such as Magic and circuit simulators.
 
-The PDK connects the circuit design to the manufacturing process by defining how devices and physical layers should be represented and checked.
+The PDK defines how devices and physical layers are represented and checked for a particular manufacturing process.
 
-**Important:** The generic transistor simulation in this repository is not a SKY130 model-based simulation.
+**Note:** The generic transistor simulation in this repository is not a SKY130 model-based simulation.
 
-## 3. Basic CMOS Process Layers
+## 4. Basic CMOS Process Layers
 
-Common layers encountered in a CMOS process include:
+Common layers encountered in CMOS layout include:
 
 - **N-well:** Region used to form PMOS devices in a typical bulk CMOS process.
-- **Active/Diffusion:** Region where transistor source and drain structures are formed.
-- **Polysilicon:** Commonly used to form the transistor gate.
+- **Active/diffusion:** Region where transistor source and drain structures are formed.
+- **Polysilicon:** Commonly used to form transistor gates.
 - **Metal layers:** Conductive layers used for circuit interconnections.
-- **Contacts and vias:** Structures that connect diffusion, polysilicon, and different metal layers.
+- **Contacts and vias:** Structures connecting diffusion, polysilicon, and metal layers.
 - **Implant layers:** Define doped semiconductor regions.
 - **Well and substrate taps:** Provide electrical connections to wells and substrate regions.
 
-The exact layer names, purposes, and permitted geometries depend on the technology and PDK definitions.
+Exact layer names, functions, and permitted geometries depend on the technology and PDK definitions.
 
-## 4. NMOS and PMOS Transistors
+## 5. NMOS and PMOS Transistors
 
 A MOSFET is a voltage-controlled semiconductor device with four terminals: gate, source, drain, and body.
 
 ### NMOS
 
-An NMOS transistor turns on when its gate-to-source voltage exceeds its threshold voltage sufficiently. It can provide a conducting path between the drain and source.
-
-In a basic CMOS inverter, the NMOS connects the output toward ground when the input is HIGH.
+An NMOS transistor turns on when its gate-to-source voltage sufficiently exceeds its threshold voltage. In a basic CMOS inverter, it connects the output toward ground when the input is HIGH.
 
 ### PMOS
 
-A PMOS transistor turns on when its gate-to-source voltage is sufficiently negative, or equivalently when its source-to-gate voltage exceeds the magnitude of its threshold voltage.
+A PMOS transistor turns on when its source-to-gate voltage sufficiently exceeds the magnitude of its threshold voltage. In a basic CMOS inverter, it connects the output toward the positive supply when the input is LOW.
 
-In a basic CMOS inverter, the PMOS connects the output toward the positive supply when the input is LOW.
+## 6. CMOS Inverter Operation
 
-## 5. CMOS Inverter Operation
-
-A CMOS inverter uses one PMOS transistor and one NMOS transistor. Their gates are connected to the input, and their drains are connected to the output. The PMOS source connects to the positive supply, while the NMOS source connects to ground.
+A CMOS inverter uses one PMOS transistor and one NMOS transistor. Their gates connect to the input, and their drains connect to the output. The PMOS source connects to the positive supply, while the NMOS source connects to ground.
 
 | Input | PMOS | NMOS | Expected output |
 |---|---|---|---|
 | LOW (0 V) | ON | OFF | HIGH (approximately VDD) |
 | HIGH (approximately VDD) | OFF | ON | LOW (approximately 0 V) |
 
-The inverter performs the Boolean operation:
+The Boolean operation is:
 
 **Y = NOT(A)**
 
 Ideally, steady-state CMOS logic consumes very little static power, although real circuits have leakage and dynamic switching power.
 
-## 6. Open-Source EDA Workflow
+## 7. Open-Source EDA Workflow
 
-The general workflow for a simple CMOS circuit is:
+The general workflow for a CMOS circuit is:
 
-1. **Xschem:** Draw the transistor-level schematic and connect circuit terminals.
-2. **SPICE netlist:** Represent circuit elements and their electrical connections in a text-based format.
-3. **ngspice:** Run DC, AC, or transient simulations using suitable device models.
-4. **Magic:** Create and inspect the physical layout using the appropriate technology file.
-5. **DRC:** Check the layout against the process design rules.
-6. **LVS:** Compare the extracted layout connectivity against the reference schematic netlist.
-7. **Parasitic extraction:** Estimate parasitic resistance and capacitance from the layout for further simulation.
+1. **Xschem:** Draw the transistor-level schematic.
+2. **SPICE netlisting:** Represent circuit components and electrical connections in text form.
+3. **ngspice:** Run circuit simulations using appropriate device models.
+4. **Magic:** Create and inspect the physical layout using the technology definitions.
+5. **DRC:** Check the layout against process design rules.
+6. **LVS:** Compare extracted layout connectivity against the reference schematic.
+7. **Parasitic extraction:** Estimate parasitic resistance and capacitance for further simulation.
 
-A successful schematic simulation does not by itself prove that a layout satisfies design rules or matches the schematic.
+A successful schematic simulation does not establish that a layout is physically valid or electrically equivalent to the schematic.
 
-## 7. Physical Verification
+## 8. CMOS Inverter Simulation
 
-### Design Rule Check (DRC)
-
-DRC checks whether layout geometry satisfies technology-specific manufacturing constraints, such as minimum width, spacing, enclosure, and overlap requirements.
-
-A clean DRC report indicates that the checked layout passed the rules included in that run. It does not guarantee that a circuit is functionally correct.
-
-### Layout Versus Schematic (LVS)
-
-LVS extracts a circuit representation from the physical layout and compares it with the reference schematic. It checks device types, connectivity, and other supported comparison properties.
-
-A successful LVS result indicates that the compared layout and schematic are consistent according to the configured rules.
-
-### Why Both Are Needed
-
-DRC checks physical geometry; LVS checks electrical correspondence. A layout may pass DRC but fail LVS if its circuit connections are incorrect.
-
-## 8. Implemented CMOS Inverter Simulation
-
-The repository contains an Xschem schematic and a separate SPICE netlist for a generic CMOS inverter.
+The repository contains an Xschem schematic and SPICE netlists for a generic CMOS inverter.
 
 Simulation setup:
+
 - Supply voltage: 1.8 V
-- NMOS model: Generic Level-1 model
-- PMOS model: Generic Level-1 model
+- NMOS model: Generic Level-1
+- PMOS model: Generic Level-1
 - NMOS dimensions: W = 1 µm, L = 0.18 µm
 - PMOS dimensions: W = 2 µm, L = 0.18 µm
 - Output load: 10 fF
 - Transient stop time: 30 ns
 - Maximum requested time step: 50 ps
 
-The input pulse is configured to transition between 0 V and 1.8 V. The ngspice batch simulation completed and generated 650 transient data rows.
+The input pulse transitions between 0 V and 1.8 V. The ngspice batch simulation completed and generated 650 transient data rows.
 
 The initial operating point showed an input near 0 V and an output near 1.8 V, consistent with the expected inverter state for a LOW input.
 
-**Limitation:** These results use generic Level-1 transistor models. They do not establish SKY130-specific electrical performance. The generated waveform data is available in `My_Inverter/results/inverter_waveform.csv`.
+**Limitation:** These results use generic Level-1 transistor models and do not establish SKY130-specific electrical performance. The saved waveform data is located at `My_Inverter/results/inverter_waveform.csv`.
 
-## 9. Project Files
+## 9. Physical Verification
 
-- `My_Inverter/inverter.sch` — Xschem schematic source.
+### Design Rule Check (DRC)
+
+DRC checks layout geometry against manufacturing constraints, including minimum width, spacing, enclosure, and overlap.
+
+The current Magic layout reports a local-interconnect diffusion-contact enclosure violation (`li.5`). The layout is therefore **not yet DRC-clean**.
+
+### Layout Versus Schematic (LVS)
+
+LVS compares the circuit extracted from the physical layout against the reference schematic. It checks device types, connectivity, and other supported properties.
+
+**LVS has not yet been completed for this layout.**
+
+DRC checks physical geometry, while LVS checks electrical correspondence. Both are required for a properly verified design.
+
+## 10. Project Files
+
+- `My_Inverter/inverter.sch` — Xschem inverter schematic.
 - `My_Inverter/inverter_pre.sp` — Generic SPICE netlist.
-- `My_Inverter/results/simulation.log` — Latest ngspice batch log.
-- `My_Inverter/results/inverter_waveform.csv` — Saved transient waveform data.
+- `My_Inverter/inverter_test.sch` — Testbench schematic.
+- `My_Inverter/inverter_layout.mag` — Preliminary Magic layout.
+- `My_Inverter/results/` — SPICE netlists, simulation log, and waveform data.
+- `My_Inverter/screenshots/` — Project screenshots for documentation.
 
-## 10. Tools
+## 11. Tools Used
 
 - **Xschem:** Schematic capture.
 - **ngspice:** Circuit simulation.
-- **Magic:** Layout creation and inspection.
-- **Netgen:** Commonly used for netlist comparison and LVS workflows.
-- **SKY130 PDK:** Technology definitions, device information, and design rules.
+- **Magic:** Physical layout creation and inspection.
+- **Netgen:** Intended for layout-versus-schematic comparison when configured with the appropriate LVS tool and setup.
+- **SKY130A PDK:** Technology definitions, device information, and design rules.
+- **Git and GitHub:** Version control and project documentation.
 
-## 11. Current Status and Limitations
+## 12. Current Status and Future Work
 
-The generic CMOS inverter transient simulation completed, and waveform data was saved.
+Completed:
+- Created the generic CMOS inverter schematic.
+- Ran the generic transient simulation and saved waveform data.
+- Loaded the SKY130A technology in a locally built Magic installation.
+- Started creating a preliminary physical layout.
+- Committed project files to GitHub.
 
-The SKY130A technology did not load successfully in the available Magic environment because of a tool-version compatibility problem. Therefore, this repository does not claim a verified SKY130 layout, a passing SKY130 DRC result, or a passing LVS result.
+In progress:
+- Correcting layout design-rule violations.
+- Completing the required implant layers, contacts, and electrical connections.
+- Verifying well/substrate connections and layout geometry.
+- Running DRC until the layout passes the applicable rules.
+- Performing LVS against the reference schematic.
 
-The project documents the implemented simulation and the theory behind the physical verification workflow. Completing the technology-specific layout, DRC, and LVS steps remains future work.
+The current layout is a work in progress. No clean DRC or successful LVS result is claimed.
 
-## 12. Conclusion
+## 13. Conclusion
 
-This project demonstrates the basic CMOS inverter concept, schematic and SPICE file organization, and a generic pre-layout transient simulation using open-source EDA tools. It also documents the role of the SKY130 PDK, process layers, and physical verification checks. Further work is required to complete and verify a technology-specific SKY130 layout.
+This project demonstrates the CMOS inverter concept, schematic capture, generic pre-layout simulation, and initial exploration of SKY130 physical layout using open-source EDA tools.
+
+Further work is required to complete the technology-specific layout and establish successful DRC and LVS results.
