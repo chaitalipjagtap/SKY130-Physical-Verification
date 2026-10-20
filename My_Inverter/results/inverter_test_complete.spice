@@ -1,0 +1,11 @@
+.model nmos NMOS LEVEL=1 VTO=0.5 KP=120u
+.model pmos PMOS LEVEL=1 VTO=-0.5 KP=50u
+** sch_path: /home/lenovo/SKY130-Physical-Verification-Submission/My_Inverter/inverter_test.sch
+**.subckt inverter_test
+M1 VOUT VIN GND GND nmos w=1u l=0.18u m=1
+M2 VOUT VIN net1 net1 pmos w=2u l=0.18u m=1
+V1 net1 GND 1.8
+V2 VIN GND PULSE(0,1.8,1n,100p,100p,5n,10n)
+**.ends
+.GLOBAL GND
+.end
