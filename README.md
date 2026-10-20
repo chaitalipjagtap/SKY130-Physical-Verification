@@ -22,7 +22,7 @@ The project includes a generic CMOS inverter schematic and simulation, SKY130 te
 
 ### Simulation Waveform
 
-![CMOS Inverter Simulation](My_Inverter/screenshots/inverter_simulation.png)
+![CMOS Inverter Simulation](My_Inverter/screenshots/CMOS_inverter_simulation.png)
 
 *Generic CMOS inverter transient simulation. The simulation uses generic Level-1 transistor models, not SKY130-specific device models.*
 

@@ -1,3 +1,4 @@
+CMOS Inverter Pre-Layout Simulation
 .model nmos NMOS LEVEL=1 VTO=0.5 KP=120u
 .model pmos PMOS LEVEL=1 VTO=-0.5 KP=50u
 ** sch_path: /home/lenovo/SKY130-Physical-Verification-Submission/My_Inverter/inverter_test.sch
