@@ -1,0 +1,19 @@
+SKY130A CMOS Inverter Transient Test
+
+.lib "/home/lenovo/open_pdks/sky130/sky130A/libs.tech/ngspice/sky130.lib.spice" tt
+.option scale=1e-6
+
+VDD vdd 0 1.8
+VIN vin 0 PULSE(0 1.8 1n 100p 100p 5n 10n)
+
+* PMOS: drain gate source bulk
+XP1 vout vin vdd vdd sky130_fd_pr__pfet_01v8 L=0.18 W=3
+* NMOS: drain gate source bulk
+XN1 vout vin 0 0 sky130_fd_pr__nfet_01v8 L=0.18 W=4.5
+
+.control
+tran 20p 30n
+plot v(vin) v(vout)
+.endc
+
+.end
