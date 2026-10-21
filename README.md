@@ -8,11 +8,10 @@ The project includes a generic CMOS inverter schematic and simulation, SKY130 te
 
 ## 2. Project Screenshots
 
-### CMOS Inverter Schematic
+## SKY130 CMOS Inverter
 
-![CMOS Inverter Schematic](My_Inverter/inverter_schematic.png)
-
-*Transistor-level CMOS inverter schematic created using Xschem.*
+### Inverter Schematic
+![SKY130 CMOS Inverter Schematic](My_Inverter/screenshots/inverter_Schematic_1.png.jpeg)
 
 ### Physical Layout — Work in Progress
 
